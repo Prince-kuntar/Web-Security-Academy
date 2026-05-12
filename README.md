@@ -1,12 +1,4 @@
-# GitHub Repository Description
 
-A structured collection of my PortSwigger Web Security Academy lab writeups, organized by web attack categories such as SQL Injection, CSRF, XSS, SSRF, Authentication, Access Control, and more. Includes methodologies, payloads, exploitation steps, lessons learned, and offensive security insights.
-
----
-
-# README.md
-
-````md
 # 🌐 PortSwigger Web Security Academy Writeups
 
 A structured repository containing my lab writeups and notes from the 
@@ -48,7 +40,7 @@ The repository is organized by **attack categories** rather than difficulty leve
 ├── API-Testing/
 ├── Race-Conditions/
 └── Misc/
-````
+```
 
 ---
 
@@ -67,7 +59,6 @@ This repository serves as:
 
 Each lab writeup generally follows this structure:
 
-```md
 # Lab Name
 
 ## 📌 Overview
@@ -93,7 +84,6 @@ Important lessons learned.
 
 ## 🔗 Lab Link
 Original PortSwigger lab URL.
-```
 
 ---
 
